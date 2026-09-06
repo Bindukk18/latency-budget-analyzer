@@ -34,6 +34,48 @@ supplied values as planning inputs (allocated budgets, observed
 representative p95s, or other chosen numbers). It does **not** predict
 production p95.
 
+## How the analyzer sees a service graph
+
+Sequential dependencies add to the critical path.
+
+Parallel branches execute concurrently, so the slowest required branch
+determines when the join can continue.
+
+### Sequential path
+
+`examples/sequential.yaml` — every service waits for the previous one.
+Critical-path budget estimate: **275 ms** (15 + 35 + 55 + 70 + 90 + 10).
+
+```mermaid
+flowchart LR
+    G["Gateway<br/>15 ms"] --> C["Checkout<br/>35 ms"]
+    C --> P["Pricing<br/>55 ms"]
+    P --> I["Inventory<br/>70 ms"]
+    I --> PAY["Payment<br/>90 ms"]
+    PAY --> R["Response<br/>10 ms"]
+```
+
+### Parallel branches
+
+`examples/parallel.yaml` — profile, catalog, and recommendations start
+together after aggregator. Highlighted nodes are the selected critical
+path: **170 ms** (15 + 25 + 110 + 20), not 310 ms.
+
+```mermaid
+flowchart LR
+    G["Gateway<br/>15 ms"] --> A["Aggregator<br/>25 ms"]
+    A --> PR["Profile<br/>60 ms"]
+    A --> CA["Catalog<br/>80 ms"]
+    A --> RE["Recommendations<br/>110 ms"]
+    PR --> R["Response<br/>20 ms"]
+    CA --> R
+    RE --> R
+    style G fill:#f6d55c
+    style A fill:#f6d55c
+    style RE fill:#f6d55c
+    style R fill:#f6d55c
+```
+
 ## Quick start
 
 ```bash
