@@ -1,0 +1,42 @@
+LATENCY BUDGET ANALYSIS
+=======================
+
+Graph: checkout-api
+Target p95 budget: 300 ms
+
+Critical path:
+gateway -> checkout -> pricing -> inventory -> payment -> response
+
+Critical-path latency: 275 ms
+Remaining budget:      25 ms
+Budget utilization:    91.7%
+Status:                WITHIN_BUDGET
+
+SERVICE TIMING
+--------------
+gateway            start=0      finish=15     latency=15     slack=0  critical
+checkout           start=15     finish=50     latency=35     slack=0  critical
+pricing            start=50     finish=105    latency=55     slack=0  critical
+inventory          start=105    finish=175    latency=70     slack=0  critical
+payment            start=175    finish=265    latency=90     slack=0  critical
+response           start=265    finish=275    latency=10     slack=0  critical
+
+Existing parallel fan-out:
+none
+
+Highest latency-budget risk:
+payment
+90 ms / 30.0% of target
+Reason: largest individual latency contribution on selected critical path
+
+Parallelization opportunities:
+none declared
+
+Recommendations:
+- payment contributes 30% of the latency target and lies on the critical path.
+- OPTIMIZING A NON-CRITICAL SERVICE MAY PRODUCE ZERO END-TO-END LATENCY IMPROVEMENT.
+
+Note:
+This is deterministic budget analysis over supplied service values.
+SUM OF SERVICE P95s != TRUE END-TO-END P95.
+It is not a statistical prediction of end-to-end production p95.

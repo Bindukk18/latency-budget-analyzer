@@ -1,0 +1,11 @@
+name: over-budget
+target_p95_ms: 100
+
+services:
+  a:
+    latency_ms: 40
+    depends_on: []
+  b:
+    latency_ms: 80
+    depends_on:
+      - a

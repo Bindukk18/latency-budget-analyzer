@@ -1,0 +1,45 @@
+LATENCY BUDGET ANALYSIS
+=======================
+
+Graph: recommendation-api
+Target p95 budget: 250 ms
+
+Critical path:
+gateway -> aggregator -> recommendations -> response
+
+Critical-path latency: 170 ms
+Remaining budget:      80 ms
+Budget utilization:    68.0%
+Status:                WITHIN_BUDGET
+
+SERVICE TIMING
+--------------
+gateway            start=0      finish=15     latency=15     slack=0  critical
+aggregator         start=15     finish=40     latency=25     slack=0  critical
+catalog            start=40     finish=120    latency=80     slack=30
+profile            start=40     finish=100    latency=60     slack=50
+recommendations    start=40     finish=150    latency=110    slack=0  critical
+response           start=150    finish=170    latency=20     slack=0  critical
+
+Existing parallel fan-out:
+aggregator -> [catalog, profile, recommendations]
+Critical branch: recommendations
+
+Highest latency-budget risk:
+recommendations
+110 ms / 44.0% of target
+Reason: largest individual latency contribution on selected critical path
+
+Parallelization opportunities:
+none declared
+
+Recommendations:
+- recommendations contributes 44% of the latency target and lies on the critical path.
+- catalog has 30 ms of slack; optimizing it by less than that will not reduce current end-to-end critical-path latency.
+- profile has 50 ms of slack; optimizing it by less than that will not reduce current end-to-end critical-path latency.
+- OPTIMIZING A NON-CRITICAL SERVICE MAY PRODUCE ZERO END-TO-END LATENCY IMPROVEMENT.
+
+Note:
+This is deterministic budget analysis over supplied service values.
+SUM OF SERVICE P95s != TRUE END-TO-END P95.
+It is not a statistical prediction of end-to-end production p95.

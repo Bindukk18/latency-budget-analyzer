@@ -1,0 +1,27 @@
+name: checkout-api
+target_p95_ms: 300
+
+services:
+  gateway:
+    latency_ms: 15
+    depends_on: []
+  checkout:
+    latency_ms: 35
+    depends_on:
+      - gateway
+  pricing:
+    latency_ms: 55
+    depends_on:
+      - checkout
+  inventory:
+    latency_ms: 70
+    depends_on:
+      - pricing
+  payment:
+    latency_ms: 90
+    depends_on:
+      - inventory
+  response:
+    latency_ms: 10
+    depends_on:
+      - payment

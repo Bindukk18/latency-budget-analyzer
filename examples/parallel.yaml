@@ -1,0 +1,29 @@
+name: recommendation-api
+target_p95_ms: 250
+
+services:
+  gateway:
+    latency_ms: 15
+    depends_on: []
+  aggregator:
+    latency_ms: 25
+    depends_on:
+      - gateway
+  profile:
+    latency_ms: 60
+    depends_on:
+      - aggregator
+  catalog:
+    latency_ms: 80
+    depends_on:
+      - aggregator
+  recommendations:
+    latency_ms: 110
+    depends_on:
+      - aggregator
+  response:
+    latency_ms: 20
+    depends_on:
+      - profile
+      - catalog
+      - recommendations
