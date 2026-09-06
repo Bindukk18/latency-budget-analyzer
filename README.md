@@ -70,10 +70,10 @@ flowchart LR
     PR --> R["Response<br/>20 ms"]
     CA --> R
     RE --> R
-    style G fill:#f6d55c
-    style A fill:#f6d55c
-    style RE fill:#f6d55c
-    style R fill:#f6d55c
+    style G fill:#c5d8f0,stroke:#2c5f8a,color:#1a1a1a
+    style A fill:#c5d8f0,stroke:#2c5f8a,color:#1a1a1a
+    style RE fill:#c5d8f0,stroke:#2c5f8a,color:#1a1a1a
+    style R fill:#c5d8f0,stroke:#2c5f8a,color:#1a1a1a
 ```
 
 ## Quick start

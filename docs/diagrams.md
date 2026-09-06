@@ -19,8 +19,8 @@ flowchart LR
     aggregator --> profile --> response
     aggregator --> catalog --> response
     aggregator --> recommendations --> response
-    style gateway fill:#f6d55c
-    style aggregator fill:#f6d55c
-    style recommendations fill:#f6d55c
-    style response fill:#f6d55c
+    style gateway fill:#c5d8f0,stroke:#2c5f8a,color:#1a1a1a
+    style aggregator fill:#c5d8f0,stroke:#2c5f8a,color:#1a1a1a
+    style recommendations fill:#c5d8f0,stroke:#2c5f8a,color:#1a1a1a
+    style response fill:#c5d8f0,stroke:#2c5f8a,color:#1a1a1a
 ```
